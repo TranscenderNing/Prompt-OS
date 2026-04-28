@@ -14,7 +14,7 @@ COPY frontend/ ./
 RUN npm run build
 
 # Stage 2: Nginx 托管
-FROM nginx:1.27-alpine AS runner
+FROM nginx:1.29-alpine AS runner
 
 # 清空默认站点
 RUN rm -rf /usr/share/nginx/html/*
