@@ -1,0 +1,23 @@
+# Python / Node 缓存与环境
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.env
+
+# 数据库文件（通过 volume 挂载，不打进镜像）
+backend/promptos.db
+backend/promptos.db-journal
+
+# 前端
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+
+# 其他
+.workbuddy/
+.idea/
+.vscode/
+*.log
+.DS_Store

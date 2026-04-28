@@ -1,0 +1,53 @@
+# PromptOS 生产部署
+# 启动：  docker compose up -d --build
+# 访问：  http://localhost:8080
+# 停止：  docker compose down
+# 数据卷：promptos-data  (SQLite 数据库)
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    image: promptos-backend:latest
+    container_name: promptos-backend
+    restart: unless-stopped
+    environment:
+      # 如果想让后端作为"默认"LLM 入口，可在这里填。前端也允许用户在浏览器里自己配置。
+      PROMPTOS_LLM_BASE_URL: ${PROMPTOS_LLM_BASE_URL:-}
+      PROMPTOS_LLM_API_KEY: ${PROMPTOS_LLM_API_KEY:-}
+      PROMPTOS_LLM_MODEL: ${PROMPTOS_LLM_MODEL:-gpt-4o-mini}
+      PROMPTOS_DB: /data/promptos.db
+    volumes:
+      - promptos-data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request,sys;sys.exit(0 if urllib.request.urlopen('http://127.0.0.1:8000/api/health').status==200 else 1)"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - promptos
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    image: promptos-frontend:latest
+    container_name: promptos-frontend
+    restart: unless-stopped
+    depends_on:
+      backend:
+        condition: service_healthy
+    ports:
+      - "${PROMPTOS_PORT:-8080}:80"
+    networks:
+      - promptos
+
+volumes:
+  promptos-data:
+    name: promptos-data
+
+networks:
+  promptos:
+    name: promptos-net

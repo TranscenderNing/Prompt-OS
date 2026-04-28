@@ -1,0 +1,23 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html, body, #root { height: 100%; }
+body { font-family: ui-sans-serif, system-ui, -apple-system, "PingFang SC", "Helvetica Neue", sans-serif; }
+
+.var-chip {
+  @apply inline-block px-1.5 py-0.5 mx-0.5 rounded bg-indigo-500/20 text-indigo-300 text-xs font-mono;
+}
+
+textarea, input { outline: none; }
+
+.btn { @apply px-3 py-1.5 rounded-md text-sm font-medium transition; }
+.btn-primary { @apply bg-indigo-600 hover:bg-indigo-500 text-white; }
+.btn-ghost { @apply bg-ink-800 hover:bg-ink-700 text-ink-100 border border-ink-700; }
+.btn-danger { @apply bg-rose-600/80 hover:bg-rose-500 text-white; }
+
+.card { @apply bg-ink-900 border border-ink-800 rounded-lg; }
+
+.scrollbar::-webkit-scrollbar { width: 8px; height: 8px; }
+.scrollbar::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+.scrollbar::-webkit-scrollbar-track { background: transparent; }
