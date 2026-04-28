@@ -1,6 +1,6 @@
 # ---- PromptOS Frontend (multi-stage) ----
 # Stage 1: 构建 Vite 产物
-FROM node:20-alpine AS builder
+FROM node:25-alpine AS builder
 
 WORKDIR /app
 
